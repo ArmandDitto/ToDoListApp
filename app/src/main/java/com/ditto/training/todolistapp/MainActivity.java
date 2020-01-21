@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    Button btnAdd;
-    EditText etKegiatan;
     FloatingActionButton fabku;
     ListView lvKegiatan;
     ArrayList<String> list;
@@ -29,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnAdd = findViewById(R.id.btn_add);
-        etKegiatan = findViewById(R.id.et_kegiatan);
         lvKegiatan = findViewById(R.id.lv_kegiatan);
 
         list = new ArrayList<String>();
@@ -61,6 +58,30 @@ public class MainActivity extends AppCompatActivity {
                 builderKegiatanBaru.setNegativeButton("Cancel", null);
 
                 builderKegiatanBaru.create().show();
+            }
+        });
+
+        lvKegiatan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builderHapusKegiatan = new AlertDialog.Builder(MainActivity.this);
+                builderHapusKegiatan.setTitle("Hapus Kegiatan");
+                builderHapusKegiatan.setMessage("Anda yakin ingin menghapus ini ?");
+                //final EditText etKegiatanBaru = new EditText(MainActivity.this);
+                //builderHapusKegiatan.setView(etKegiatanBaru);
+
+                builderHapusKegiatan.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        list.remove(position);
+                        lvKegiatan.setAdapter(arrayAdapter);
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                });
+
+                builderHapusKegiatan.setNegativeButton("Cancel", null);
+
+                builderHapusKegiatan.create().show();
             }
         });
     }
