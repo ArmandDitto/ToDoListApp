@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ToDoListApp</string>
+    <array name="array_kegiatan">
+        <item>Belanja</item>
+        <item>Berdoa</item>
+        <item>Coding</item>
+        <item>Jalan Jalan</item>
+    </array>
 </resources>
