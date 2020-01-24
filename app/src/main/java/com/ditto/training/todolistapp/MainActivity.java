@@ -66,15 +66,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Hapus Kegiatan ketika ditekan
-        lvKegiatan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvKegiatan.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                AlertDialog.Builder builderHapusKegiatan = new AlertDialog.Builder(MainActivity.this);
-                builderHapusKegiatan.setTitle("Hapus Kegiatan");
-                builderHapusKegiatan.setMessage("Anda yakin ingin menghapus ini ?");
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builderHapusDaftar = new AlertDialog.Builder(MainActivity.this);
+                builderHapusDaftar.setTitle("Hapus Data");
+                builderHapusDaftar.setMessage("Apakah yakin ingin dihapus ?");
 
-                //Button Konfirmasi Delete Kegiatan
-                builderHapusKegiatan.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                builderHapusDaftar.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         list.remove(position);
@@ -83,10 +82,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                //Button Tidak jadi Delete Kegiatan
-                builderHapusKegiatan.setNegativeButton("Cancel", null);
-
-                builderHapusKegiatan.create().show();
+                builderHapusDaftar.setNegativeButton("NO", null);
+                builderHapusDaftar.show();
+                return false;
             }
         });
     }
