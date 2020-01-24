@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         list.remove(position);
+                        delSharedP();
                         arrayAdapter.notifyDataSetChanged();
                     }
                 });
@@ -106,9 +107,20 @@ public class MainActivity extends AppCompatActivity {
                 String daftarKegiatan = sharedP.getString(key, null);
                 list.add(daftarKegiatan);
             }
-
         }
     }
+
+    private void delSharedP(){
+        SharedPreferences sharedP = getSharedPreferences("daftar", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedP.edit();
+        editor.clear();
+        editor.commit();
+        for(int i=0; i<list.size(); i++){
+            editor.putString(String.valueOf(i),list.get(i));
+        }
+        editor.commit();
+    }
+
 
     /*private void saveArrayList(){
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
