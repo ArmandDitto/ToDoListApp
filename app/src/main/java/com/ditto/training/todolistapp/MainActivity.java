@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -33,69 +34,46 @@ public class MainActivity extends AppCompatActivity {
         arrayAdapter = new ArrayAdapter<>(getApplicationContext(),
                        android.R.layout.simple_list_item_1,list);
 
+        //Panggil Method
         loadSharedP();
         lvKegiatan.setAdapter(arrayAdapter);
-        //Flying Action Button
+        //Floating Action Button
         fabku = findViewById(R.id.fa_btn);
         fabku.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(MainActivity.this, R.layout.todo_layout, null);
-                etTodo = view.findViewById(R.id.et_todo);
-                AlertDialog.Builder builderKegiatanBaru = new AlertDialog.Builder(MainActivity.this);
-                builderKegiatanBaru.setTitle("Tambah Kegiatan");
-                builderKegiatanBaru.setMessage("Kegiatan apa yang ingin ditambahkan ?");
-                builderKegiatanBaru.setView(view);
-
-                //Button Menambah Kegiatan
-                builderKegiatanBaru.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        int new_key = list.size();
-                        String listKegiatan = etTodo.getText().toString();
-                        list.add(listKegiatan);
-                        arrayAdapter.notifyDataSetChanged();
-
-                        //Memanggil Method
-                        addToSharedP(new_key, listKegiatan);
-                    }
-                });
-
-                //Button Cancel Menambah Kegiatan
-                builderKegiatanBaru.setNegativeButton("Cancel", null);
-
-                builderKegiatanBaru.create().show();
+                //Panggil Method
+                showAddKegiatan();
             }
         });
 
         lvKegiatan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showEditKegiatan(position);
-            }
-        });
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builderPilihAksi = new AlertDialog.Builder(MainActivity.this);
+                builderPilihAksi.setTitle("Hayo mau diapain ...");
+                builderPilihAksi.setMessage("''"+arrayAdapter.getItem(position)+"''");
 
-        //Hapus Kegiatan ketika ditekan
-        lvKegiatan.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                AlertDialog.Builder builderHapusDaftar = new AlertDialog.Builder(MainActivity.this);
-                builderHapusDaftar.setTitle("Hapus Data");
-                builderHapusDaftar.setMessage("Apakah yakin ingin dihapus ?");
-
-                builderHapusDaftar.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                builderPilihAksi.setPositiveButton("Ubah", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        list.remove(position);
-                        delSharedP();
-                        arrayAdapter.notifyDataSetChanged();
+                        //Panggil Method
+                        showEditKegiatan(position);
                     }
                 });
 
-                builderHapusDaftar.setNegativeButton("NO", null);
-                builderHapusDaftar.create();
-                builderHapusDaftar.show();
-                return false;
+                builderPilihAksi.setNegativeButton("Hapus", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Panggil Method
+                        showDeleteKegiatan(position);
+                    }
+                });
+
+                builderPilihAksi.setNeutralButton("Batal", null);
+
+                builderPilihAksi.create();
+                builderPilihAksi.show();
             }
         });
     }
@@ -130,6 +108,52 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    private  void showAddKegiatan (){
+        View view = View.inflate(MainActivity.this, R.layout.todo_layout, null);
+        etTodo = view.findViewById(R.id.et_todo);
+        AlertDialog.Builder builderKegiatanBaru = new AlertDialog.Builder(MainActivity.this);
+        builderKegiatanBaru.setTitle("Tambah Kegiatan");
+        builderKegiatanBaru.setMessage("Kamu pengen ngapain lagi ?");
+        builderKegiatanBaru.setView(view);
+
+        builderKegiatanBaru.setPositiveButton("Tambah", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int new_key = list.size();
+                String listKegiatan = etTodo.getText().toString().trim();
+                list.add(listKegiatan);
+                arrayAdapter.notifyDataSetChanged();
+
+                //Panggil Method
+                addToSharedP(new_key, listKegiatan);
+            }
+        });
+        builderKegiatanBaru.setNegativeButton("Batal", null);
+
+        builderKegiatanBaru.create();
+        builderKegiatanBaru.show();
+    }
+
+    private void showDeleteKegiatan(final int position){
+        AlertDialog.Builder builderHapusDaftar = new AlertDialog.Builder(MainActivity.this);
+        builderHapusDaftar.setTitle("Hapus Data");
+        builderHapusDaftar.setMessage("Apakah yakin ingin dihapus ?");
+
+        builderHapusDaftar.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                list.remove(position);
+                //Panggil Method
+                delSharedP();
+                arrayAdapter.notifyDataSetChanged();
+            }
+        });
+        builderHapusDaftar.setNegativeButton("Tidak", null);
+
+        builderHapusDaftar.create();
+        builderHapusDaftar.show();
+    }
+
     private void showEditKegiatan(final int position){
         View view = View.inflate(this, R.layout.todo_layout, null);
         etTodo = view.findViewById(R.id.et_todo);
@@ -138,44 +162,25 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder editKegiatanBuilder = new AlertDialog.Builder(this);
         editKegiatanBuilder.setTitle("Ubah Kegiatan");
         editKegiatanBuilder.setView(view);
-        editKegiatanBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+        editKegiatanBuilder.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String listKegiatan = etTodo.getText().toString().trim();
+                //Panggil Method
                 editItem(position, etTodo.getText().toString());
             }
         });
-        editKegiatanBuilder.setNegativeButton("Cancel", null);
+        editKegiatanBuilder.setNegativeButton("Batal", null);
+
         editKegiatanBuilder.create();
         editKegiatanBuilder.show();
     }
 
     private void editItem(int position, String newItem){
         list.set(position, newItem);
-
+        //Panggil Method
         delSharedP();
 
         arrayAdapter.notifyDataSetChanged();
-
     }
-
-    /*private void saveArrayList(){
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("size", list.size());
-
-        for(int i=0;i<list.size();i++){
-            editor.remove("app"+i);
-            editor.putString("app"+1, list.get(i));
-        }
-    }*/
-
-    /*private void loadArrayList(){
-        SharedPreferences sharedPref2 = PreferenceManager.getDefaultSharedPreferences(this);
-        list.clear();
-        int size = sharedPref2.getInt("size", 0);
-
-        for(int i=0;i<size;i++){
-            list.add(sharedPref2.getString("app"+i, null));
-        }
-    }*/
 }
