@@ -121,7 +121,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 int new_key = list.size();
                 String listKegiatan = etTodo.getText().toString().trim();
-                list.add(listKegiatan);
+
+                if(listKegiatan.equals("")){
+                    Toast.makeText(getApplicationContext(), "Datanya gaboleh kosong :(",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    list.add(listKegiatan);
+                }
                 arrayAdapter.notifyDataSetChanged();
 
                 //Panggil Method
@@ -165,9 +171,14 @@ public class MainActivity extends AppCompatActivity {
         editKegiatanBuilder.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String listKegiatan = etTodo.getText().toString().trim();
-                //Panggil Method
-                editItem(position, etTodo.getText().toString());
+                String editListKegiatan = etTodo.getText().toString().trim();
+                if(editListKegiatan.equals("")){
+                    Toast.makeText(getApplicationContext(), "Datanya gaboleh kosong :(",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    //Panggil Method
+                    editItem(position, etTodo.getText().toString());
+                }
             }
         });
         editKegiatanBuilder.setNegativeButton("Batal", null);
