@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     FloatingActionButton fabku;
     ListView lvKegiatan;
+    EditText etTodo;
     ArrayList<String> list;
     ArrayAdapter<String> arrayAdapter;
 
@@ -38,18 +40,19 @@ public class MainActivity extends AppCompatActivity {
         fabku.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View view = View.inflate(MainActivity.this, R.layout.todo_layout, null);
+                etTodo = view.findViewById(R.id.et_todo);
                 AlertDialog.Builder builderKegiatanBaru = new AlertDialog.Builder(MainActivity.this);
                 builderKegiatanBaru.setTitle("Tambah Kegiatan");
                 builderKegiatanBaru.setMessage("Kegiatan apa yang ingin ditambahkan ?");
-                final EditText etKegiatanBaru = new EditText(MainActivity.this);
-                builderKegiatanBaru.setView(etKegiatanBaru);
+                builderKegiatanBaru.setView(view);
 
                 //Button Menambah Kegiatan
                 builderKegiatanBaru.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         int new_key = list.size();
-                        String listKegiatan = etKegiatanBaru.getText().toString();
+                        String listKegiatan = etTodo.getText().toString();
                         list.add(listKegiatan);
                         arrayAdapter.notifyDataSetChanged();
 
@@ -62,6 +65,13 @@ public class MainActivity extends AppCompatActivity {
                 builderKegiatanBaru.setNegativeButton("Cancel", null);
 
                 builderKegiatanBaru.create().show();
+            }
+        });
+
+        lvKegiatan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showEditKegiatan(position);
             }
         });
 
@@ -83,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 builderHapusDaftar.setNegativeButton("NO", null);
+                builderHapusDaftar.create();
                 builderHapusDaftar.show();
                 return false;
             }
@@ -119,6 +130,33 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    private void showEditKegiatan(final int position){
+        View view = View.inflate(this, R.layout.todo_layout, null);
+        etTodo = view.findViewById(R.id.et_todo);
+        etTodo.setText(arrayAdapter.getItem(position));
+
+        AlertDialog.Builder editKegiatanBuilder = new AlertDialog.Builder(this);
+        editKegiatanBuilder.setTitle("Ubah Kegiatan");
+        editKegiatanBuilder.setView(view);
+        editKegiatanBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                editItem(position, etTodo.getText().toString());
+            }
+        });
+        editKegiatanBuilder.setNegativeButton("Cancel", null);
+        editKegiatanBuilder.create();
+        editKegiatanBuilder.show();
+    }
+
+    private void editItem(int position, String newItem){
+        list.set(position, newItem);
+
+        delSharedP();
+
+        arrayAdapter.notifyDataSetChanged();
+
+    }
 
     /*private void saveArrayList(){
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
