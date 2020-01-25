@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/iv_splash"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
         android:layout_marginTop="100dp"
         android:src="@drawable/gfxpngred"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,9 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="TERSERAH AKU"
+        android:text="TERSERAH AKU :("
         android:textColor="#FFF"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

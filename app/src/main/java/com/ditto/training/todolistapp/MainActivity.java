@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         lvKegiatan = findViewById(R.id.lv_kegiatan);
 
         list = new ArrayList<>();
-        arrayAdapter = new ArrayAdapter<>(getApplicationContext(),
-                       android.R.layout.simple_list_item_1,list);
+        arrayAdapter = new ArrayAdapter<>(this,
+                       R.layout.todo_content_layout,R.id.tv_todo_content, list);
 
         //Panggil Method
         loadSharedP();
