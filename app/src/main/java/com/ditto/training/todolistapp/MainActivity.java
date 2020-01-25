@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 AlertDialog.Builder builderPilihAksi = new AlertDialog.Builder(MainActivity.this);
-                builderPilihAksi.setTitle("Hayo mau diapain ...");
-                builderPilihAksi.setMessage("''"+arrayAdapter.getItem(position)+"''");
+                builderPilihAksi.setTitle("''"+arrayAdapter.getItem(position)+"''");
+                builderPilihAksi.setMessage("Bingung ya mau diapain ? :(");
 
                 builderPilihAksi.setPositiveButton("Ubah", new DialogInterface.OnClickListener() {
                     @Override
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         etTodo = view.findViewById(R.id.et_todo);
         AlertDialog.Builder builderKegiatanBaru = new AlertDialog.Builder(MainActivity.this);
         builderKegiatanBaru.setTitle("Tambah Kegiatan");
-        builderKegiatanBaru.setMessage("Kamu pengen ngapain lagi ?");
+        builderKegiatanBaru.setMessage("Produktif terus ya...");
         builderKegiatanBaru.setView(view);
 
         builderKegiatanBaru.setPositiveButton("Tambah", new DialogInterface.OnClickListener() {
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 String listKegiatan = etTodo.getText().toString().trim();
 
                 if(listKegiatan.equals("")){
-                    Toast.makeText(getApplicationContext(), "Datanya gaboleh kosong :(",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Dibilangin gaboleh kosong :(",Toast.LENGTH_SHORT).show();
                 }
                 else{
                     list.add(listKegiatan);
@@ -142,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void showDeleteKegiatan(final int position){
         AlertDialog.Builder builderHapusDaftar = new AlertDialog.Builder(MainActivity.this);
-        builderHapusDaftar.setTitle("Hapus Data");
-        builderHapusDaftar.setMessage("Kamu beneran pengen hapus ''"+arrayAdapter.getItem(position)+"'' ?");
+        builderHapusDaftar.setTitle("Hapus Kegiatan");
+        builderHapusDaftar.setMessage("Kamu beneran pengen hapus ''"+arrayAdapter.getItem(position)+"'' ? :(");
 
         builderHapusDaftar.setPositiveButton("Iya Dong", new DialogInterface.OnClickListener() {
             @Override
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String editListKegiatan = etTodo.getText().toString();
                 if(editListKegiatan.equals("")){
-                    Toast.makeText(getApplicationContext(), "Datanya gaboleh kosong :(",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Dibilangin gaboleh kosong :(",Toast.LENGTH_SHORT).show();
                 }
                 else{
                     //Panggil Method
