@@ -129,16 +129,15 @@ public class MainActivity extends AppCompatActivity {
                 int new_key = list.size();
                 String listKegiatan = etTodo.getText().toString().trim();
 
-                if(listKegiatan.equals("")){
-                    Toast.makeText(getApplicationContext(), "Dibilangin gaboleh kosong :(",Toast.LENGTH_SHORT).show();
+                if(!listKegiatan.equals("")){
+                    list.add(listKegiatan);
+                    arrayAdapter.notifyDataSetChanged();
+                    //Panggil Method
+                    addToSharedP(new_key, listKegiatan);
                 }
                 else{
-                    list.add(listKegiatan);
+                    Toast.makeText(getApplicationContext(), "Dibilangin gaboleh kosong :(",Toast.LENGTH_SHORT).show();
                 }
-                arrayAdapter.notifyDataSetChanged();
-
-                //Panggil Method
-                addToSharedP(new_key, listKegiatan);
             }
         });
         builderKegiatanBaru.setNegativeButton("Batal", null);
