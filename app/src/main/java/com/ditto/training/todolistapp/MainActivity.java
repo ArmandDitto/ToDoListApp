@@ -164,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
         View view = View.inflate(this, R.layout.todo_layout, null);
         etTodo = view.findViewById(R.id.et_todo);
         etTodo.setText(arrayAdapter.getItem(position));
+        etTodo.setSelection(etTodo.getText().length());
 
         AlertDialog.Builder editKegiatanBuilder = new AlertDialog.Builder(this);
         editKegiatanBuilder.setTitle("Ubah Kegiatan");
@@ -171,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         editKegiatanBuilder.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String editListKegiatan = etTodo.getText().toString().trim();
+                String editListKegiatan = etTodo.getText().toString();
                 if(editListKegiatan.equals("")){
                     Toast.makeText(getApplicationContext(), "Datanya gaboleh kosong :(",Toast.LENGTH_SHORT).show();
                 }
