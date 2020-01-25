@@ -143,9 +143,9 @@ public class MainActivity extends AppCompatActivity {
     private void showDeleteKegiatan(final int position){
         AlertDialog.Builder builderHapusDaftar = new AlertDialog.Builder(MainActivity.this);
         builderHapusDaftar.setTitle("Hapus Data");
-        builderHapusDaftar.setMessage("Apakah yakin ingin dihapus ?");
+        builderHapusDaftar.setMessage("Kamu beneran pengen hapus ''"+arrayAdapter.getItem(position)+"'' ?");
 
-        builderHapusDaftar.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+        builderHapusDaftar.setPositiveButton("Iya Dong", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 list.remove(position);
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 arrayAdapter.notifyDataSetChanged();
             }
         });
-        builderHapusDaftar.setNegativeButton("Tidak", null);
+        builderHapusDaftar.setNegativeButton("Gajadi Deh", null);
 
         builderHapusDaftar.create();
         builderHapusDaftar.show();
