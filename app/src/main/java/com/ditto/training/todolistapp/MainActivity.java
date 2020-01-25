@@ -237,4 +237,20 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alertDialogExit = new AlertDialog.Builder(this);
+        alertDialogExit.setTitle("Keluar Aplikasi");
+        alertDialogExit.setMessage("Kamu beneran pengen keluar ? :(");
+        alertDialogExit.setPositiveButton("Iya Dong", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        alertDialogExit.setNegativeButton("Gajadi Deh", null);
+        alertDialogExit.create();
+        alertDialogExit.show();
+    }
 }
