@@ -1,11 +1,18 @@
 package com.ditto.training.todolistapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Layout;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lvKegiatan = findViewById(R.id.lv_kegiatan);
-
         list = new ArrayList<>();
         arrayAdapter = new ArrayAdapter<>(this,
                        R.layout.todo_content_layout,R.id.tv_todo_content, list);
@@ -37,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         //Panggil Method
         loadSharedP();
         lvKegiatan.setAdapter(arrayAdapter);
+
         //Floating Action Button
         fabku = findViewById(R.id.fa_btn);
         fabku.setOnClickListener(new View.OnClickListener() {
@@ -194,5 +201,40 @@ public class MainActivity extends AppCompatActivity {
         delSharedP();
 
         arrayAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menucustom_layout, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.item_exit){
+            AlertDialog.Builder alertDialogExit = new AlertDialog.Builder(this);
+            alertDialogExit.setTitle("Keluar Aplikasi");
+            alertDialogExit.setMessage("Kamu beneran pengen keluar ? :(");
+            alertDialogExit.setPositiveButton("Iya Dong", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            alertDialogExit.setNegativeButton("Gajadi Deh", null);
+            alertDialogExit.create();
+            alertDialogExit.show();
+        }
+        else if(id == R.id.item_github){
+            String githubku = "github.com/ArmandDitto/ToDoListApp";
+            Uri domain = Uri.parse("http://"+githubku);
+            Intent visit = new Intent(Intent.ACTION_VIEW, domain);
+            Intent chooseBrowser = Intent.createChooser(visit, "Kunjungi Githubku melalui:");
+            if(chooseBrowser.resolveActivity(getPackageManager())!=null){
+                startActivity(chooseBrowser);
+            }
+        }
+        return true;
     }
 }
