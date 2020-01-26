@@ -362,6 +362,7 @@ public class MainActivity extends AppCompatActivity {
                 builderHapusTerpilih.setNegativeButton("Gajadi Deh", null);
                 builderHapusTerpilih.create();
                 builderHapusTerpilih.show();
+                mode.finish();
             }
             else if(id == R.id.item_cancel_delete){
                 mode.finish();
