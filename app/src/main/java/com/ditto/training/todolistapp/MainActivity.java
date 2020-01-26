@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +18,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         lvKegiatan = findViewById(R.id.lv_kegiatan);
         tvEmpty = findViewById(R.id.tv_empty);
         list = new ArrayList<>();
@@ -51,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         //Panggil Method
         loadSharedP();
         lvKegiatan.setAdapter(arrayAdapter);
+
+
 
         //Fitur Tambah Kegiatan [Melalui Floating Action Button]
         fabku = findViewById(R.id.fa_btn);
@@ -155,8 +160,9 @@ public class MainActivity extends AppCompatActivity {
         });
         builderKegiatanBaru.setNegativeButton("Batal", null);
 
-        builderKegiatanBaru.create();
-        builderKegiatanBaru.show();
+        AlertDialog aDialogKegiatanBaru = builderKegiatanBaru.create();
+        aDialogKegiatanBaru.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        aDialogKegiatanBaru.show();
     }
 
     private void showDeleteKegiatan(final int position){
@@ -203,8 +209,9 @@ public class MainActivity extends AppCompatActivity {
         });
         editKegiatanBuilder.setNegativeButton("Batal", null);
 
-        editKegiatanBuilder.create();
-        editKegiatanBuilder.show();
+        AlertDialog aDialogEditKegiatan = editKegiatanBuilder.create();
+        aDialogEditKegiatan.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        aDialogEditKegiatan.show();
     }
 
     private void editItem(int position, String newItem){
