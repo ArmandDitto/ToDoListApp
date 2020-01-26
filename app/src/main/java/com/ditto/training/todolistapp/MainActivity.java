@@ -144,14 +144,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 int new_key = list.size();
                 String listKegiatan = etTodo.getText().toString().trim();
-
                 if(!listKegiatan.equals("")){
                     list.add(listKegiatan);
                     arrayAdapter.notifyDataSetChanged();
+
                     //Panggil Method
                     addToSharedP(new_key, listKegiatan);
-
-                    //tvEmptyMessage.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getApplicationContext(),"Kegiatan berhasil ditambahkan :(",Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Dibilangin gaboleh kosong :(",Toast.LENGTH_SHORT).show();
@@ -166,23 +165,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showDeleteKegiatan(final int position){
-        AlertDialog.Builder builderHapusDaftar = new AlertDialog.Builder(MainActivity.this);
-        builderHapusDaftar.setTitle("Hapus Kegiatan");
-        builderHapusDaftar.setMessage("Kamu beneran pengen hapus ''"+arrayAdapter.getItem(position)+"'' ? :(");
+        AlertDialog.Builder builderHapusKegiatan = new AlertDialog.Builder(MainActivity.this);
+        builderHapusKegiatan.setTitle("Hapus Kegiatan");
+        builderHapusKegiatan.setMessage("Kamu beneran pengen hapus ''"+arrayAdapter.getItem(position)+"'' ? :(");
 
-        builderHapusDaftar.setPositiveButton("Iya Dong", new DialogInterface.OnClickListener() {
+        builderHapusKegiatan.setPositiveButton("Iya Dong", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(),"Kegiatan ''"+arrayAdapter.getItem(position)+"'' berhasil dihapus :(",Toast.LENGTH_SHORT).show();
                 list.remove(position);
+
                 //Panggil Method
                 delSharedP();
                 arrayAdapter.notifyDataSetChanged();
             }
         });
-        builderHapusDaftar.setNegativeButton("Gajadi Deh", null);
+        builderHapusKegiatan.setNegativeButton("Gajadi Deh", null);
 
-        builderHapusDaftar.create();
-        builderHapusDaftar.show();
+        builderHapusKegiatan.create();
+        builderHapusKegiatan.show();
     }
 
     private void showEditKegiatan(final int position){
@@ -191,10 +192,10 @@ public class MainActivity extends AppCompatActivity {
         etTodo.setText(arrayAdapter.getItem(position));
         etTodo.setSelection(etTodo.getText().length());
 
-        AlertDialog.Builder editKegiatanBuilder = new AlertDialog.Builder(this);
-        editKegiatanBuilder.setTitle("Ubah Kegiatan");
-        editKegiatanBuilder.setView(view);
-        editKegiatanBuilder.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
+        AlertDialog.Builder builderEditKegiatan = new AlertDialog.Builder(this);
+        builderEditKegiatan.setTitle("Ubah Kegiatan");
+        builderEditKegiatan.setView(view);
+        builderEditKegiatan.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String editListKegiatan = etTodo.getText().toString();
@@ -204,21 +205,22 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     //Panggil Method
                     editItem(position, etTodo.getText().toString());
+                    Toast.makeText(getApplicationContext(), "Kegiatan ''"+arrayAdapter.getItem(position)+"'' berhasil diubah :(",Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        editKegiatanBuilder.setNegativeButton("Batal", null);
+        builderEditKegiatan.setNegativeButton("Batal", null);
 
-        AlertDialog aDialogEditKegiatan = editKegiatanBuilder.create();
+        AlertDialog aDialogEditKegiatan = builderEditKegiatan.create();
         aDialogEditKegiatan.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         aDialogEditKegiatan.show();
     }
 
     private void editItem(int position, String newItem){
         list.set(position, newItem);
+
         //Panggil Method
         delSharedP();
-
         arrayAdapter.notifyDataSetChanged();
     }
 
@@ -263,10 +265,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     list.clear();
+
                     //Panggil Method
                     delSharedP();
                     arrayAdapter.notifyDataSetChanged();
-
+                    Toast.makeText(getApplicationContext(),"Semua kegiatan Terhapus :(", Toast.LENGTH_SHORT).show();
                 }
             });
             alertDialogClearAll.setNegativeButton("GAJADI DEH", null);
