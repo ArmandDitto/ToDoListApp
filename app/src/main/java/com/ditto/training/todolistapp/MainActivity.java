@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fabku;
     ListView lvKegiatan;
     EditText etTodo;
+    TextView tvEmpty;
     ArrayList<String> list;
     ArrayAdapter<String> arrayAdapter;
 
@@ -40,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lvKegiatan = findViewById(R.id.lv_kegiatan);
+        tvEmpty = findViewById(R.id.tv_empty);
         list = new ArrayList<>();
+        lvKegiatan.setEmptyView(tvEmpty);
         arrayAdapter = new ArrayAdapter<>(this,
                        R.layout.todo_content_layout,R.id.tv_todo_content, list);
 
@@ -141,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
                     arrayAdapter.notifyDataSetChanged();
                     //Panggil Method
                     addToSharedP(new_key, listKegiatan);
+
+                    //tvEmptyMessage.setVisibility(View.INVISIBLE);
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Dibilangin gaboleh kosong :(",Toast.LENGTH_SHORT).show();
@@ -250,8 +256,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     list.clear();
+                    //Panggil Method
                     delSharedP();
                     arrayAdapter.notifyDataSetChanged();
+
                 }
             });
             alertDialogClearAll.setNegativeButton("GAJADI DEH", null);

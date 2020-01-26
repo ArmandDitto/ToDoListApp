@@ -30,4 +30,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="parent" />
 
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Belum Ada Kegiatan :("
+        android:textColorHint="#C3C9CC"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:gravity="center" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
