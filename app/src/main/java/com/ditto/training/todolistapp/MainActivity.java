@@ -3,6 +3,7 @@ package com.ditto.training.todolistapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Dialog;
@@ -15,28 +16,32 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.Layout;
 import android.text.TextWatcher;
+import android.view.ActionMode;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.nio.charset.MalformedInputException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     FloatingActionButton fabku;
     ListView lvKegiatan;
     EditText etTodo;
     TextView tvEmpty;
-    ArrayList<String> list;
+    ArrayList<String> list, listChecked;
     ArrayAdapter<String> arrayAdapter;
 
     @Override
@@ -47,15 +52,17 @@ public class MainActivity extends AppCompatActivity {
         lvKegiatan = findViewById(R.id.lv_kegiatan);
         tvEmpty = findViewById(R.id.tv_empty);
         list = new ArrayList<>();
+        listChecked = new ArrayList<>();
         lvKegiatan.setEmptyView(tvEmpty);
         arrayAdapter = new ArrayAdapter<>(this,
                        R.layout.todo_content_layout,R.id.tv_todo_content, list);
 
+        lvKegiatan.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+        lvKegiatan.setMultiChoiceModeListener(multiChecker);
+
         //Panggil Method
         loadSharedP();
         lvKegiatan.setAdapter(arrayAdapter);
-
-
 
         //Fitur Tambah Kegiatan [Melalui Floating Action Button]
         fabku = findViewById(R.id.fa_btn);
@@ -101,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //Method untuk menambah data Shared Preference
     private void addToSharedP(int key, String listKegiatan){
         SharedPreferences sharedP = getSharedPreferences("daftar",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedP.edit();
@@ -109,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    //Method untuk menampilkan data Shared Preference
     private void loadSharedP(){
         SharedPreferences sharedP = getSharedPreferences("daftar",MODE_PRIVATE);
         if (sharedP.getAll().size()>0){
@@ -120,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Method untuk meregenerasi data Shared Preference
     private void delSharedP(){
         SharedPreferences sharedP = getSharedPreferences("daftar", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedP.edit();
@@ -131,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    //Method untuk menampilkan Builder Tambah Kegiatan
     private  void showAddKegiatan (){
         View view = View.inflate(MainActivity.this, R.layout.todo_layout, null);
         etTodo = view.findViewById(R.id.et_todo);
@@ -164,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
         aDialogKegiatanBaru.show();
     }
 
+    //Method untuk menampilkan Builder Hapus Kegiatan
     private void showDeleteKegiatan(final int position){
         AlertDialog.Builder builderHapusKegiatan = new AlertDialog.Builder(MainActivity.this);
         builderHapusKegiatan.setTitle("Hapus Kegiatan");
@@ -186,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
         builderHapusKegiatan.show();
     }
 
+    //Method untuk menampilkan Builder Ubah Kegiatan
     private void showEditKegiatan(final int position){
         View view = View.inflate(this, R.layout.todo_layout, null);
         etTodo = view.findViewById(R.id.et_todo);
@@ -224,12 +237,22 @@ public class MainActivity extends AppCompatActivity {
         arrayAdapter.notifyDataSetChanged();
     }
 
+    //Method untuk menghapus kegiatan yang dipilih
+    public void removeSelectedItem(List<String> items){
+        for(String item: items){
+            list.remove(item);
+            delSharedP();
+        }
+        arrayAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menucustom_layout, menu);
         return true;
     }
 
+    //Fitur untuk menangani Menu yang dipilih
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -279,6 +302,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    //Fitur untuk menangani Exit menggunakan Back Button
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alertDialogExit = new AlertDialog.Builder(this);
@@ -294,4 +318,61 @@ public class MainActivity extends AppCompatActivity {
         alertDialogExit.create();
         alertDialogExit.show();
     }
+
+    //Fitur untuk menangani kegiatan yang dipilih
+    AbsListView.MultiChoiceModeListener multiChecker = new AbsListView.MultiChoiceModeListener() {
+        @Override
+        public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+            if(listChecked.contains(list.get(position))){
+                listChecked.remove(list.get(position));
+            }
+            else{
+                listChecked.add(list.get(position));
+            }
+            mode.setTitle(listChecked.size()+" kegiatan terpilih :(");
+        }
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater menuInflaterku = mode.getMenuInflater();
+            menuInflaterku.inflate(R.menu.menucontext_layout, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            int id = item.getItemId();
+            if(id == R.id.item_delete){
+                AlertDialog.Builder builderHapusTerpilih = new AlertDialog.Builder(MainActivity.this);
+                builderHapusTerpilih.setTitle("Hapus Kegiatan Terpilih");
+                builderHapusTerpilih.setMessage("Kamu beneran pengen hapus "+listChecked.size()+" kegiatan yang terpilih ? :(");
+                builderHapusTerpilih.setPositiveButton("Iya Dong", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Panggil Method
+                        Toast.makeText(getApplicationContext(), listChecked.size()+" Kegiatan terpilih berhasil dihapus :(", Toast.LENGTH_SHORT).show();
+                        removeSelectedItem(listChecked);
+                    }
+                });
+                builderHapusTerpilih.setNegativeButton("Gajadi Deh", null);
+                builderHapusTerpilih.create();
+                builderHapusTerpilih.show();
+            }
+            else if(id == R.id.item_cancel_delete){
+                mode.finish();
+            }
+
+            return true;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            listChecked.clear();
+        }
+    };
 }
