@@ -10,13 +10,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.Html;
 import android.text.Layout;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -44,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         loadSharedP();
         lvKegiatan.setAdapter(arrayAdapter);
 
-        //Floating Action Button
+        //Fitur Tambah Kegiatan [Melalui Floating Action Button]
         fabku = findViewById(R.id.fa_btn);
         fabku.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Fitur Memanipulasi Kegiatan
         lvKegiatan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -61,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 builderPilihAksi.setTitle("''"+arrayAdapter.getItem(position)+"''");
                 builderPilihAksi.setMessage("Bingung ya mau diapain ? :(");
 
+                //Fitur Mengubah Kegiatan
                 builderPilihAksi.setPositiveButton("Ubah", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -69,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                //Fitur Menghapus Kegiatan
                 builderPilihAksi.setNegativeButton("Hapus", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -233,6 +240,23 @@ public class MainActivity extends AppCompatActivity {
             if(chooseBrowser.resolveActivity(getPackageManager())!=null){
                 startActivity(chooseBrowser);
             }
+        }
+        else if(id == R.id.item_clear){
+            String messageClear = "Kamu beneran pengen <b>HAPUS SEMUA</b> kegiatan secara <b>PERMANEN</b> ? :(";
+            AlertDialog.Builder alertDialogClearAll = new AlertDialog.Builder(this);
+            alertDialogClearAll.setTitle("Hapus Semua Data");
+            alertDialogClearAll.setMessage(Html.fromHtml(messageClear));
+            alertDialogClearAll.setPositiveButton("IYA DONG", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    list.clear();
+                    delSharedP();
+                    arrayAdapter.notifyDataSetChanged();
+                }
+            });
+            alertDialogClearAll.setNegativeButton("GAJADI DEH", null);
+            alertDialogClearAll.create();
+            alertDialogClearAll.show();
         }
         return true;
     }
