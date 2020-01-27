@@ -8,6 +8,9 @@ import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +36,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.w3c.dom.Text;
 
 import java.nio.charset.MalformedInputException;
 import java.util.ArrayList;
@@ -381,6 +386,16 @@ public class MainActivity extends AppCompatActivity {
                 builderHapusTerpilih.setNegativeButton("Gajadi Deh", null);
                 builderHapusTerpilih.create();
                 builderHapusTerpilih.show();
+            }
+
+            //Fitur untuk melakukan copy kegiatan ke Clipboard
+            else if(id == R.id.item_copy){
+                ClipboardManager clipboardku = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                String cliptext = listChecked.toString().replace("[", "").replace("]","");
+                ClipData clipku = ClipData.newPlainText("EditText", cliptext);
+                clipboardku.setPrimaryClip(clipku);
+
+                Toast.makeText(getApplicationContext(),"Kegiatan berhasil disalin :(",Toast.LENGTH_SHORT).show();
             }
             return true;
         }
