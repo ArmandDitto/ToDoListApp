@@ -339,6 +339,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             MenuInflater menuInflaterku = mode.getMenuInflater();
             menuInflaterku.inflate(R.menu.menucontext_layout, menu);
+            fabku.setEnabled(false);
             return true;
         }
 
@@ -373,6 +374,7 @@ public class MainActivity extends AppCompatActivity {
                 mode.finish();
             }
 
+
             return true;
         }
 
@@ -380,6 +382,9 @@ public class MainActivity extends AppCompatActivity {
         public void onDestroyActionMode(ActionMode mode) {
             lvKegiatan.setAdapter(arrayAdapter);
             listChecked.clear();
+            fabku.setEnabled(true);
         }
     };
+
+
 }
