@@ -212,13 +212,13 @@ public class MainActivity extends AppCompatActivity {
         builderEditKegiatan.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String editListKegiatan = etTodo.getText().toString();
+                String editListKegiatan = etTodo.getText().toString().trim();
                 if(editListKegiatan.equals("")){
                     Toast.makeText(getApplicationContext(), "Dibilangin gaboleh kosong :(",Toast.LENGTH_SHORT).show();
                 }
                 else{
                     //Panggil Method
-                    editItem(position, etTodo.getText().toString());
+                    editItem(position, etTodo.getText().toString().trim());
                     Toast.makeText(getApplicationContext(), "Kegiatan ''"+arrayAdapter.getItem(position)+"'' berhasil diubah :(",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -373,8 +373,6 @@ public class MainActivity extends AppCompatActivity {
             else if(id == R.id.item_cancel_delete){
                 mode.finish();
             }
-
-
             return true;
         }
 
@@ -385,6 +383,4 @@ public class MainActivity extends AppCompatActivity {
             fabku.setEnabled(true);
         }
     };
-
-
 }
