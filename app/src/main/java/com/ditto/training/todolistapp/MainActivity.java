@@ -330,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
                 listChecked.add(list.get(position));
-                lvKegiatan.getChildAt(position).setBackgroundColor(Color.parseColor("#FFF753"));
+                lvKegiatan.getChildAt(position).setBackgroundColor(Color.parseColor("#CCCCCC"));
             }
             mode.setTitle(listChecked.size()+" kegiatan terpilih :(");
         }
@@ -369,9 +369,6 @@ public class MainActivity extends AppCompatActivity {
                 builderHapusTerpilih.setNegativeButton("Gajadi Deh", null);
                 builderHapusTerpilih.create();
                 builderHapusTerpilih.show();
-            }
-            else if(id == R.id.item_cancel_delete){
-                mode.finish();
             }
             return true;
         }
