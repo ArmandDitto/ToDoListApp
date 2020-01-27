@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         listChecked = new ArrayList<>();
         lvKegiatan.setEmptyView(tvEmpty);
         arrayAdapter = new ArrayAdapter<>(this,
-                       R.layout.todo_content_layout,R.id.tv_todo_content, list);
+                R.layout.todo_content_layout,R.id.tv_todo_content, list);
 
         lvKegiatan.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
         lvKegiatan.setMultiChoiceModeListener(multiChecker);
@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
             int id = item.getItemId();
             if(id == R.id.item_delete){
                 AlertDialog.Builder builderHapusTerpilih = new AlertDialog.Builder(MainActivity.this);
@@ -357,12 +357,12 @@ public class MainActivity extends AppCompatActivity {
                         //Panggil Method
                         Toast.makeText(getApplicationContext(), listChecked.size()+" Kegiatan terpilih berhasil dihapus :(", Toast.LENGTH_SHORT).show();
                         removeSelectedItem(listChecked);
+                        mode.finish();
                     }
                 });
                 builderHapusTerpilih.setNegativeButton("Gajadi Deh", null);
                 builderHapusTerpilih.create();
                 builderHapusTerpilih.show();
-                mode.finish();
             }
             else if(id == R.id.item_cancel_delete){
                 mode.finish();
