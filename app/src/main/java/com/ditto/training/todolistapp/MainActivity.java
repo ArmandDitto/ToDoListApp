@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Dialog;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvEmpty;
     ArrayList<String> list, listChecked;
     ArrayAdapter<String> arrayAdapter;
+    private int pos = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -331,6 +333,16 @@ public class MainActivity extends AppCompatActivity {
             else{
                 listChecked.add(list.get(position));
                 lvKegiatan.getChildAt(position).setBackgroundColor(Color.parseColor("#CCCCCC"));
+            }
+
+            //Menampilkan Icon Copy ketika Satu Kegiatan terpilih
+            ActionMenuItemView itemCopy = findViewById(R.id.item_copy);
+            if(listChecked.size()>1||listChecked.size()==0){
+                itemCopy.setVisibility(View.GONE);
+            }
+            else{
+                itemCopy.setVisibility(View.VISIBLE);
+                pos=position;
             }
             mode.setTitle(listChecked.size()+" kegiatan terpilih :(");
         }
