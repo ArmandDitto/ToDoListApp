@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -325,9 +326,11 @@ public class MainActivity extends AppCompatActivity {
         public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
             if(listChecked.contains(list.get(position))){
                 listChecked.remove(list.get(position));
+                lvKegiatan.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
             }
             else{
                 listChecked.add(list.get(position));
+                lvKegiatan.getChildAt(position).setBackgroundColor(Color.parseColor("#FFF753"));
             }
             mode.setTitle(listChecked.size()+" kegiatan terpilih :(");
         }
@@ -355,8 +358,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Panggil Method
+                        lvKegiatan.setBackgroundColor(Color.TRANSPARENT);
                         Toast.makeText(getApplicationContext(), listChecked.size()+" Kegiatan terpilih berhasil dihapus :(", Toast.LENGTH_SHORT).show();
                         removeSelectedItem(listChecked);
+
                         mode.finish();
                     }
                 });
@@ -373,6 +378,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
+            lvKegiatan.setAdapter(arrayAdapter);
             listChecked.clear();
         }
     };
