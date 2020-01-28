@@ -391,8 +391,9 @@ public class MainActivity extends AppCompatActivity {
             //Fitur untuk melakukan copy kegiatan ke Clipboard
             else if(id == R.id.item_copy){
                 ClipboardManager clipboardku = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                String cliptext = listChecked.toString().replace("[", "").replace("]","");
-                ClipData clipku = ClipData.newPlainText("EditText", cliptext);
+
+                String cliptext = listChecked.toString();
+                ClipData clipku = ClipData.newPlainText("EditText", cliptext.substring(1, cliptext.length()-1));
                 clipboardku.setPrimaryClip(clipku);
 
                 Toast.makeText(getApplicationContext(),"Kegiatan berhasil disalin :(",Toast.LENGTH_SHORT).show();
