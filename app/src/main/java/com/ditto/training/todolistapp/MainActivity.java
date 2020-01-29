@@ -3,6 +3,7 @@ package com.ditto.training.todolistapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.appcompat.widget.Toolbar;
@@ -343,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
             //Menampilkan Icon Copy ketika Satu Kegiatan terpilih
             ActionMenuItemView itemCopy = findViewById(R.id.item_copy);
             ActionMenuItemView itemEdit = findViewById(R.id.item_edit);
-            if(listChecked.size()>1||listChecked.size()==0){
+            if(listChecked.size() != 1){
                 itemCopy.setVisibility(View.GONE);
                 itemEdit.setVisibility(View.GONE);
             }
@@ -410,9 +411,6 @@ public class MainActivity extends AppCompatActivity {
                 /*Cara3
                 String cliptext = listChecked.toString();
                 ClipData clipku = ClipData.newPlainText("EditText", cliptext.substring(1, cliptext.length()-1));*/
-
-                /*Cara 4
-                String cliptext = listChecked.toString().replace("[", "").replace("]","");*/
 
                 Toast.makeText(getApplicationContext(),"Kegiatan berhasil disalin :(",Toast.LENGTH_SHORT).show();
                 mode.finish();

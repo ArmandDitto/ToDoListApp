@@ -4,16 +4,16 @@
     <item
         android:id="@+id/item_copy"
         android:icon="@drawable/ic_content_copy_white_24dp"
-        android:title="Salin"
+        android:title="@string/salin"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/item_edit"
         android:icon="@drawable/ic_edit_white_24dp"
-        android:title="Ubah"
+        android:title="@string/ubah"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/item_delete"
         android:icon="@drawable/ic_delete_white_24dp"
-        android:title="Hapus"
+        android:title="@string/hapus"
         app:showAsAction="ifRoom"/>
 </menu>

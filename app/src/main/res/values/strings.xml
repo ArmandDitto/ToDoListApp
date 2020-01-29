@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">Terserah Aku</string>
+    <string name="salin">Salin</string>
+    <string name="ubah">Ubah</string>
+    <string name="hapus">Hapus</string>
+    <string name="belum_ada_kegiatan">Belum Ada Kegiatan :(</string>
+    <string name="clear_data">Clear Data</string>
+    <string name="github">Github</string>
+    <string name="keluar">Keluar</string>
+    <string name="terserah_aku">TERSERAH AKU :(</string>
     <array name="array_kegiatan">
         <item>Belanja</item>
         <item>Berdoa</item>

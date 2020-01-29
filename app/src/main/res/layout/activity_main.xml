@@ -36,7 +36,7 @@
         android:id="@+id/tv_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="Belum Ada Kegiatan :("
+        android:hint="@string/belum_ada_kegiatan"
         android:textColorHint="#C3C9CC"
         android:textSize="30sp"
         android:textStyle="bold"
