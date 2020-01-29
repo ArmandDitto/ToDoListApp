@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     TextView tvEmpty;
     ArrayList<String> list, listChecked;
     ArrayAdapter<String> arrayAdapter;
-    private int pos = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -347,7 +346,6 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
                 itemCopy.setVisibility(View.VISIBLE);
-                pos=position;
             }
             mode.setTitle(listChecked.size()+" kegiatan terpilih :(");
         }
@@ -404,8 +402,12 @@ public class MainActivity extends AppCompatActivity {
                     clipboardku.setPrimaryClip(clipku);
                 }*/
 
-                //Cara 3
-                //String cliptext = listChecked.toString().replace("[", "").replace("]","");
+                /*Cara3
+                String cliptext = listChecked.toString();
+                ClipData clipku = ClipData.newPlainText("EditText", cliptext.substring(1, cliptext.length()-1));*/
+
+                /*Cara 4
+                String cliptext = listChecked.toString().replace("[", "").replace("]","");*/
 
                 Toast.makeText(getApplicationContext(),"Kegiatan berhasil disalin :(",Toast.LENGTH_SHORT).show();
             }
