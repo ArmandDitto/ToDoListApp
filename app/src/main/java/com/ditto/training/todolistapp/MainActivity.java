@@ -415,11 +415,13 @@ public class MainActivity extends AppCompatActivity {
                 String cliptext = listChecked.toString().replace("[", "").replace("]","");*/
 
                 Toast.makeText(getApplicationContext(),"Kegiatan berhasil disalin :(",Toast.LENGTH_SHORT).show();
+                mode.finish();
             }
 
             //Fitur untuk mengubah kegiatan yang terpilih
             else if(id == R.id.item_edit){
                 showEditKegiatan(positionku);
+                mode.finish();
             }
 
             return true;
