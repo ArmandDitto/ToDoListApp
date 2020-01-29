@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     ListView lvKegiatan;
     EditText etTodo;
     TextView tvEmpty;
+    int positionku;
     ArrayList<String> list, listChecked;
     ArrayAdapter<String> arrayAdapter;
 
@@ -341,11 +342,15 @@ public class MainActivity extends AppCompatActivity {
 
             //Menampilkan Icon Copy ketika Satu Kegiatan terpilih
             ActionMenuItemView itemCopy = findViewById(R.id.item_copy);
+            ActionMenuItemView itemEdit = findViewById(R.id.item_edit);
             if(listChecked.size()>1||listChecked.size()==0){
                 itemCopy.setVisibility(View.GONE);
+                itemEdit.setVisibility(View.GONE);
             }
             else{
                 itemCopy.setVisibility(View.VISIBLE);
+                itemEdit.setVisibility(View.VISIBLE);
+                positionku = position;
             }
             mode.setTitle(listChecked.size()+" kegiatan terpilih :(");
         }
@@ -411,6 +416,12 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(),"Kegiatan berhasil disalin :(",Toast.LENGTH_SHORT).show();
             }
+
+            //Fitur untuk mengubah kegiatan yang terpilih
+            else if(id == R.id.item_edit){
+                showEditKegiatan(positionku);
+            }
+
             return true;
         }
 
